@@ -19,7 +19,7 @@
 
         <!-- <video id="vid" src="assets/mov_bbb.mp4" autoplay="true" loop="true"></video>     -->
 
-        <video id="myVideo" src="assets/videoplayback.mp4" preload muted playsinline loop></video>
+        <video id="myVideo" src="assets/videoplayback.mp4"></video>
 
       </a-assets>
 
@@ -68,28 +68,41 @@
   //     })
 
 
-  document.addEventListener("DOMContentLoaded", function() {
-  const video = document.querySelector('#myVideo');
-  
-  // Try to start playback immediately (might work if muted)
-  video.play().catch(e => console.log("Initial autoplay failed:", e));
-  
-  // Play video when target is found
-  const targetEntity = document.querySelector('[mindar-image-target="targetIndex: 0"]');
-  targetEntity.addEventListener("targetFound", function() {
-    console.log("Target found, attempting to play video");
-    video.play().catch(e => console.log("Error playing video:", e));
-  });
-  
-  // If you want to play based on user interaction:
-  document.addEventListener('click', function() {
-    if (video.paused) {
-      console.log("User clicked, playing video");
-      video.play();
-    }
-  });
-});
+      document.addEventListener("DOMContentLoaded", function() {
+      const video = document.querySelector('#myVideo');
+      
+      // Try to start playback immediately (might work if muted)
+      video.play().catch(e => console.log("Initial autoplay failed:", e));
+      
+      // Play video when target is found
+      const targetEntity = document.querySelector('[mindar-image-target="targetIndex: 0"]');
+      targetEntity.addEventListener("targetFound", function() {
+        // console.log("Target found, attempting to play video", targetEntity);
+        video.play().catch(e => console.log("Error playing video:", e));
+      });
 
+      // Pause video when target is lost
+      targetEntity.addEventListener("targetLost", function() {
+        console.log("Target lost, pausing video");
+        video.pause();
+      });
+ 
+      // targetEntity.addEventListener("click", function() {
+      //   console.log("Target clicked, playing video");
+      //   video.pause();
+      // });
+ 
+      document.addEventListener('click', function() {
+        if (video.paused) {
+          console.log("User clicked, playing video");
+          video.play();
+        }
+        else {
+          console.log("User clicked, pausing video");
+          video.pause();
+        }
+      });
+    });
     </script>
   </body>
 </html>
